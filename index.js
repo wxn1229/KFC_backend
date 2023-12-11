@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const authRoute = require("./routes").auth;
 const itemRoute = require("./routes").item;
+const comboRoute = require("./routes").combo;
 
 const passport = require("passport");
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/user", authRoute);
 
 app.use("/api/item", itemRoute);
+app.use("/api/combo", comboRoute);
 
 //app.use("/api/list", passport.authenticate("jwt", { session: false }), listRoute)
 

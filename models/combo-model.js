@@ -32,11 +32,11 @@ const comboSchema = new Schema({
     type: String,
     require: true,
   },
-  canChange: {
-    type: Boolean,
-    require: true,
-  }
+  imgpath_inside: {
+    type: String,
+    required: true,
 
+  },
 
 
 
