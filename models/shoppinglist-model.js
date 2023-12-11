@@ -17,7 +17,7 @@ const shoppingListSchema = new Schema({
       ref: 'Item',
       required: true
     },
-    quantity: {
+    itemnumber: {
       type: Number,
       required: true,
       min: 1 // 確保數量至少為 1
@@ -29,7 +29,7 @@ const shoppingListSchema = new Schema({
       ref: 'Combo',
       required: true
     },
-    quantity: {
+    combonumber: {
       type: Number,
       required: true,
       min: 1 // 確保數量至少為 1

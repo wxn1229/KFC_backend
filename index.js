@@ -4,10 +4,12 @@ const app = express();
 const authRoute = require("./routes").auth;
 const itemRoute = require("./routes").item;
 const comboRoute = require("./routes").combo;
+const listRoute = require("./routes").list;
 
 const passport = require("passport");
 
 require("./config/passport")(passport);
+const cors = require("cors");
 
 
 
@@ -22,6 +24,7 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 
 app.use("/api/user", authRoute);
@@ -29,6 +32,7 @@ app.use("/api/user", authRoute);
 app.use("/api/item", itemRoute);
 app.use("/api/combo", comboRoute);
 
+app.use("api/list", listRoute)
 //app.use("/api/list", passport.authenticate("jwt", { session: false }), listRoute)
 
 

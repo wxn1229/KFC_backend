@@ -16,8 +16,6 @@ const comboSchema = new Schema({
     itemnumber: {
       type: Number,
       required: true,
-      min: 1, // 確保數量至少為 1
-      default: 1,
     }
   }],
   price: {

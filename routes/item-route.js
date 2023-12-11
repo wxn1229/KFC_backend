@@ -48,9 +48,28 @@ router.get("/searchAll", async (req, res) => {
   }
 })
 
+router.get("/findbytitle/:title", async (req, res) => {
+  try {
+    let title = req.params.title;
 
-router.get("/find/:id", async (req, res) => {
-  let id = req.params;
+    let foundItem = await Items.find({ title: title })
+    return res.send({
+      msg: "sucess to find by title",
+      foundItem
+    })
+
+  } catch (e) {
+
+    return res.status(500).send(e);
+
+  }
+
+})
+
+
+
+router.get("/findbyid/:id", async (req, res) => {
+  let id = req.params.id;
   try {
     let foundItem = await Items.findOne({ _id: id });
     return res.send({
@@ -59,7 +78,11 @@ router.get("/find/:id", async (req, res) => {
     })
 
   } catch (e) {
-    return res.status(500).send("id server error");
+    return res.status(500).send({
+      msg: "fail to find by id ",
+      e
+
+    });
 
   }
 
