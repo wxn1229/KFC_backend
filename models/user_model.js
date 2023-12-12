@@ -30,12 +30,11 @@ const userSchema = new Schema({
     maxlength: 50,
   },
   phone: {
-    type: Number,
+    type: String,
     require: true,
   },
   birthday: {
-    type: Date,
-    default: Date.now(),
+    type: String,
 
   },
 

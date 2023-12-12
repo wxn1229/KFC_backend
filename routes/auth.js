@@ -30,17 +30,17 @@ router.post("/register", async (req, res) => {
   const emailExist = await User.findOne({ email: req.body.email })
   if (emailExist) return res.status(400).send("email 已經被註冊過了");
 
-  let { username, email, password, phone } = req.body;
-  let newUser = new User({ username, email, password, phone });
+  let { phone, username, email, password, birthday } = req.body;
+  let newUser = new User({ phone, username, email, password, birthday });
   try {
     let savedUser = await newUser.save();
     return res.send({
-      msg: "user sucess to saved",
+      msg: "成功註冊",
       savedUser,
     });
 
   } catch (e) {
-    return res.status(500).send("fail to saved user");
+    return res.status(500).send(e);
 
   }
 
@@ -78,6 +78,9 @@ router.post("/login", async (req, res) => {
 
 
 })
+
+
+
 
 
 module.exports = router;
