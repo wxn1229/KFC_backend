@@ -84,23 +84,6 @@ router.get("/findbytitle/:title", async (req, res) => {
 
 })
 
-router.get("/findbygroup/:group", async (req, res) => {
-  try {
-
-    let group = req.params.group
-
-    let fondcombo = await Combo.find({ group: group })
-    return res.send({
-      msg: "sucess to find by group",
-      foundcombo
-
-    })
-  } catch (e) {
-    return res.status(500).send(e);
-  }
-
-})
-
 
 router.get("/findbyid/:id", async (req, res) => {
   let id = req.params.id;
