@@ -66,6 +66,23 @@ router.get("/findbytitle/:title", async (req, res) => {
 
 })
 
+router.get("/findbygroup/:group", async (req, res) => {
+  try {
+
+    let group = req.params.group
+
+    let foundItems = await Items.find({ group: group })
+    return res.send({
+      msg: "sucess to find by group",
+      foundItems
+
+    })
+  } catch (e) {
+    return res.status(500).send(e);
+  }
+
+})
+
 
 
 router.get("/findbyid/:id", async (req, res) => {
