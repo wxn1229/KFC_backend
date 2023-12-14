@@ -45,6 +45,41 @@ async function sendEmail(recipientEmail, verificationCode) {
   }
 }
 
+async function sendnewpassword(recipientEmail, verificationCode) {
+  // 创建一个SMTP客户端配置
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // 对于465端口使用true，对于其他端口使用false
+    auth: {
+      user: 'wxn1229@gmail.com', // 你的Gmail地址
+      pass: 'dhhtzkmvtzhykuzy' // 你的Gmail密码
+    }
+  });
+
+  // 设置电子邮件内容
+  let mailOptions = {
+    from: '"KFC" <wxn1229@gmail.com>', // 发件人
+    to: recipientEmail, // 收件人
+    subject: 'Your New Password', // 主题
+    text: `Your New Password is: ${verificationCode}`, // 纯文本正文
+    html: `<b>Your New Password is: ${verificationCode}</b>` // HTML正文
+  };
+
+  // 发送电子邮件
+  try {
+    let info = await transporter.sendMail(mailOptions);
+    console.log('Message sent: %s', info.messageId);
+    return { success: true, messageId: info.messageId }; // 返回成功信息和邮件ID
+  } catch (error) {
+    console.error('Error sending email: ', error);
+    return { success: false, error: error }; // 返回错误信息
+  }
+}
+
+
+
+
 
 router.use((req, res, next) => {
   console.log("catch from auth router ")
@@ -146,5 +181,43 @@ router.post("/sendverificationcode", async (req, res) => {
     return res.status(500).send({ message: 'An error occurred.' });
   }
 });
+
+router.post("/sendnewpassword", async (req, res) => {
+  let { email } = req.body;
+  let code = generateVerificationCode();
+
+  try {
+    let emailResult = await sendnewpassword(email, code);
+
+
+    if (emailResult.success) {
+      let updatedUser = await User.findOneAndUpdate(
+        { email: email }, // 尋找條件
+        { password: code }, // 更新的資料
+        { new: true } // 返回更新後的文件
+      );
+      // 邮件发送成功
+      return res.send({
+        message: 'New password email sent successfully.',
+        messageId: emailResult.messageId, // 可以选择发送邮件ID
+        code: code,
+        updatedUser// 谨慎地返回验证码，通常不应该这么做
+      });
+    } else {
+      // 邮件发送失败
+      return res.status(500).send({
+        message: 'Failed to send New password.',
+        error: emailResult.error
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send({ message: 'An error occurred.' });
+  }
+
+
+});
+
+
 
 module.exports = router;

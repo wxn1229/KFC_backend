@@ -32,7 +32,7 @@ app.use("/api/user", authRoute);
 app.use("/api/item", itemRoute);
 app.use("/api/combo", comboRoute);
 
-app.use("api/list", listRoute)
+app.use("/api/list", listRoute)
 //app.use("/api/list", passport.authenticate("jwt", { session: false }), listRoute)
 
 
